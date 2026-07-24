@@ -2,6 +2,13 @@
 
 All notable changes to the `create-pphlx` scaffolding CLI package will be documented in this file.
 
+## [1.0.2] - 2026-07-24
+
+### 🐛 Bug Fixes
+- **Scaffold Template Styling**: Fixed missing `<style>` block in scaffolded `src/index.pphx` template so `app.css` compiles with full styling and layout rules.
+
+---
+
 ## [1.0.1] - 2026-07-24
 
 ### 🚀 Enhancements

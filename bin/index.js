@@ -151,6 +151,42 @@ $_title = !empty($title) ? $title : 'Welcome to PPHLX!';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --text-color: #ededed;
+            --border-color: #333333;
+            --hover-bg: #1a1a1a;
+            --accent: #ffffff;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 2rem;
+        }
+    </style>
     {{PPHLX_CSS}}
 </head>
 <body>
@@ -207,6 +243,112 @@ $_title = !empty($title) ? $title : 'Welcome to PPHLX!';
             </a>
         </div>
     </div>
+
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .logo-wrapper::before {
+            content: '';
+            position: absolute;
+            width: 240px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.05);
+            filter: blur(40px);
+            z-index: -1;
+            border-radius: 50%;
+        }
+
+        .get-started {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 5rem;
+            font-size: 1rem;
+            color: #888;
+        }
+
+        .code-block {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.9rem;
+            color: #ededed;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            width: 100%;
+        }
+
+        .card {
+            padding: 1.5rem 2rem;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            text-decoration: none;
+            color: var(--text-color);
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .card:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .card h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .card h2 span {
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover h2 span {
+            transform: translateX(4px);
+        }
+
+        .card p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #888;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </Layout>
 `;
     fs.writeFileSync(indexPath, indexContent, 'utf8');
