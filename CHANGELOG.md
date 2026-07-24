@@ -2,6 +2,19 @@
 
 All notable changes to the `create-pphlx` scaffolding CLI package will be documented in this file.
 
+## [1.0.3] - 2026-07-25
+
+### ✨ Interactive CLI Prompts & Scaffolding Flow
+- **Clack-Powered Interactive UI**: Upgraded `create-pphlx` CLI to use `@clack/prompts` for interactive project scaffolding.
+- **Guided Prompts**:
+  - Interactive target directory selection with random generated project names (e.g. `./swift-beacon`).
+  - Template selection prompt with remote GitHub manifest integration (`github:pphlx/pphlx/templates/minimal`).
+  - Automated dependency installation (`npm install`) prompt.
+  - Automatic `git init` repository initialization prompt.
+- **Animated Progress Indicator**: Real-time progress bar animation and completion summary badges.
+
+---
+
 ## [1.0.2] - 2026-07-24
 
 ### 🐛 Bug Fixes

@@ -1,18 +1,25 @@
 {
   "name": "create-pphlx",
-  "version": "1.0.2",
-  "description": "Scaffold a new PPHLX Monolithic PHP Application",
-  "main": "bin/index.js",
+  "version": "1.0.3",
+  "description": "Interactive scaffolder CLI for PPHLX applications",
+  "type": "module",
   "bin": {
-    "create-pphlx": "bin/index.js"
+    "create-pphlx": "./bin/index.js"
+  },
+  "scripts": {
+    "test": "node bin/index.js"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.10.0",
+    "arg": "^5.0.2",
+    "giget": "^1.2.4",
+    "log-update": "^6.0.0",
+    "picocolors": "^1.1.1"
   },
   "keywords": [
     "pphlx",
-    "create-pphlx",
-    "php",
-    "compiler",
-    "web",
     "scaffold",
+    "create-pphlx",
     "cli"
   ],
   "author": "PPHLX",
@@ -20,9 +27,5 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pphlx/create-pphlx.git"
-  },
-  "bugs": {
-    "url": "https://github.com/pphlx/pphlx/issues"
-  },
-  "homepage": "https://pphlx.org"
+  }
 }
