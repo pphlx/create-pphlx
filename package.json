@@ -1,0 +1,28 @@
+{
+  "name": "create-pphlx",
+  "version": "1.0.0",
+  "description": "Scaffold a new PPHLX Monolithic PHP Application",
+  "main": "bin/index.js",
+  "bin": {
+    "create-pphlx": "bin/index.js"
+  },
+  "keywords": [
+    "pphlx",
+    "create-pphlx",
+    "php",
+    "compiler",
+    "web",
+    "scaffold",
+    "cli"
+  ],
+  "author": "PPHLX",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pphlx/create-pphlx.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pphlx/pphlx/issues"
+  },
+  "homepage": "https://pphlx.org"
+}
