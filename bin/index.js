@@ -31,39 +31,13 @@ function generateProjectName() {
     return `./${adj}-${noun}`;
 }
 
-const TASK_BAR_FRAMES = [
-    pc.bgCyan('      '),
-    pc.bgCyan('█     '),
-    pc.bgCyan('██    '),
-    pc.bgCyan('███   '),
-    pc.bgCyan('████  '),
-    pc.bgCyan('█████ '),
-    pc.bgCyan('██████')
-];
-
-function renderBadge(label, bgFn = pc.bgMagenta, textFn = pc.whiteBold) {
-    return bgFn(` ${textFn(label)} `);
+function promptBadge(label) {
+    const padded = label.padStart(4, ' ').padEnd(4, ' ');
+    return pc.bgMagenta(` ${pc.bold(pc.white(padded))} `);
 }
 
-function createBlockTaskRunner(title) {
-    let frameIdx = 0;
-    const interval = setInterval(() => {
-        const bar = TASK_BAR_FRAMES[frameIdx];
-        logUpdate(`  ${bar}  ${pc.bold(title)}`);
-        frameIdx = (frameIdx + 1) % TASK_BAR_FRAMES.length;
-    }, 120);
-
-    return {
-        stop(successText, isError = false) {
-            clearInterval(interval);
-            if (isError) {
-                logUpdate(`  ${pc.red('✖')}  ${pc.red(successText)}\n`);
-            } else {
-                logUpdate(`  ${pc.green('✔')}  ${pc.bold(successText)}\n`);
-            }
-            logUpdate.done();
-        }
-    };
+function renderBadge(label, bgFn = pc.bgMagenta, textFn = pc.black) {
+    return bgFn(` ${textFn(label)} `);
 }
 
 async function fetchRemoteTemplates() {
@@ -107,9 +81,18 @@ async function runCommand(command, args, cwd) {
     });
 }
 
+const BAR_FRAMES = [
+    pc.bgMagenta('     '),
+    pc.bgMagenta('█    '),
+    pc.bgMagenta('██   '),
+    pc.bgMagenta('███  '),
+    pc.bgMagenta('████ '),
+    pc.bgMagenta('█████')
+];
+
 async function main() {
     console.log('');
-    p.intro(`${renderBadge('pphlx', pc.bgMagenta, pc.black)} ${pc.bold('Initializing PPHLX Project Setup')}`);
+    p.intro(`${renderBadge('pphlx', pc.bgMagenta, pc.black)}  ${pc.bold('Launch sequence initiated.')}`);
 
     const args = arg({
         '--template': String,
@@ -128,14 +111,15 @@ async function main() {
     let initGit = args['--git'] ?? (args['--no-git'] ? false : undefined);
     const isYes = args['--yes'];
 
-    // 1. Target Directory Prompt with Random Default Name
+    // 1. Target Directory Prompt
     if (!targetDir) {
         const defaultName = generateProjectName();
         if (isYes) {
             targetDir = defaultName;
+            console.log(`  ${promptBadge('dir')} Where should we create your new project?\n        ${pc.dim(targetDir)}`);
         } else {
             const dirInput = await p.text({
-                message: 'Where should we create your new project?',
+                message: `${promptBadge('dir')} Where should we create your new project?`,
                 placeholder: defaultName,
                 defaultValue: defaultName,
                 validate(val) {
@@ -143,7 +127,7 @@ async function main() {
                 }
             });
             if (p.isCancel(dirInput)) {
-                p.cancel('Scaffolding cancelled.');
+                p.cancel('Launch sequence aborted.');
                 process.exit(0);
             }
             targetDir = dirInput.trim();
@@ -157,15 +141,16 @@ async function main() {
     if (!template) {
         if (isYes) {
             template = 'minimal';
+            console.log(`  ${promptBadge('tmpl')} How would you like to start your new project?\n        ${pc.dim('Minimal starter project')}`);
         } else {
             const availableTemplates = await fetchRemoteTemplates();
             const templateChoice = await p.select({
-                message: 'How would you like to start your new project?',
+                message: `${promptBadge('tmpl')} How would you like to start your new project?`,
                 options: availableTemplates
             });
 
             if (p.isCancel(templateChoice)) {
-                p.cancel('Scaffolding cancelled.');
+                p.cancel('Launch sequence aborted.');
                 process.exit(0);
             }
             template = templateChoice;
@@ -176,13 +161,14 @@ async function main() {
     if (installDeps === undefined) {
         if (isYes) {
             installDeps = true;
+            console.log(`  ${promptBadge('deps')} Install dependencies?\n        ${pc.dim('Yes')}`);
         } else {
             const depsChoice = await p.confirm({
-                message: 'Install dependencies with npm?',
+                message: `${promptBadge('deps')} Install dependencies?`,
                 initialValue: true
             });
             if (p.isCancel(depsChoice)) {
-                p.cancel('Scaffolding cancelled.');
+                p.cancel('Launch sequence aborted.');
                 process.exit(0);
             }
             installDeps = depsChoice;
@@ -193,33 +179,57 @@ async function main() {
     if (initGit === undefined) {
         if (isYes) {
             initGit = true;
+            console.log(`  ${promptBadge('git')} Initialize a new git repository?\n        ${pc.dim('Yes')}`);
         } else {
             const gitChoice = await p.confirm({
-                message: 'Initialize a new git repository?',
+                message: `${promptBadge('git')} Initialize a new git repository?`,
                 initialValue: true
             });
             if (p.isCancel(gitChoice)) {
-                p.cancel('Scaffolding cancelled.');
+                p.cancel('Launch sequence aborted.');
                 process.exit(0);
             }
             initGit = gitChoice;
         }
     }
 
+    if (!initGit) {
+        console.log(`     ${pc.cyan('■')} ${pc.cyan('Sounds good!')} ${pc.dim('You can always run')} ${pc.bold('git init')} ${pc.dim('manually.')}`);
+    }
+
     console.log('');
 
-    // --- Task 1: Template Download & Extraction ---
-    const taskRunner = createBlockTaskRunner('Project initializing...');
-    const templateTarget = `github:pphlx/pphlx/templates/${template}`;
+    // --- Dynamic Animated Task Runner ---
+    const completedTasks = [];
+    let currentTaskName = 'Template copying...';
+    let frameIdx = 0;
 
+    const taskInterval = setInterval(() => {
+        const bar = BAR_FRAMES[frameIdx];
+        let lines = `  ${bar} ${pc.bold('PPHLX Project initializing...')}\n`;
+        for (const doneMsg of completedTasks) {
+            lines += `      ${pc.green('✓')} ${pc.green(doneMsg)}\n`;
+        }
+        if (currentTaskName) {
+            lines += `      ${pc.cyan('▶')} ${pc.cyan(currentTaskName)}`;
+        }
+        logUpdate(lines);
+        frameIdx = (frameIdx + 1) % BAR_FRAMES.length;
+    }, 100);
+
+    // Step 1: Template Copy
+    currentTaskName = 'Template copying...';
+    const templateTarget = `github:pphlx/pphlx/templates/${template}`;
     try {
         await downloadTemplate(templateTarget, {
             force: true,
             cwd: projectPath,
             dir: '.'
         });
+        completedTasks.push('Template copied');
     } catch (err) {
-        taskRunner.stop(`Failed to download template '${template}' from github:pphlx/pphlx/templates/${template}`, true);
+        clearInterval(taskInterval);
+        logUpdate.done();
         p.note(
             `Please check that the template '${template}' exists under github:pphlx/pphlx/templates/`,
             'Template Download Error'
@@ -227,7 +237,7 @@ async function main() {
         process.exit(1);
     }
 
-    // --- Post-Processing: Update package.json name ---
+    // Post-Processing: Update package.json name
     const pkgPath = path.join(projectPath, 'package.json');
     if (fs.existsSync(pkgPath)) {
         try {
@@ -241,36 +251,50 @@ async function main() {
         }
     }
 
-    // --- Task 2: Install Dependencies ---
+    // Step 2: Dependencies Installation
     if (installDeps) {
+        currentTaskName = 'Dependencies installing with npm...';
         try {
             await runCommand('npm', ['install'], projectPath);
+            completedTasks.push('Dependencies installed');
         } catch (err) {
-            // Log error silently, task finishes
+            // Non-fatal npm install failure
         }
     }
 
-    // --- Task 3: Initialize Git Repository ---
+    // Step 3: Git Initialization
     if (initGit) {
+        currentTaskName = 'Git initializing...';
         try {
             await runCommand('git', ['init'], projectPath);
             await runCommand('git', ['add', '-A'], projectPath);
             await runCommand('git', ['commit', '-m', 'Initial commit from PPHLX'], projectPath);
+            completedTasks.push('Git repository initialized');
         } catch {
             // Non-fatal git init failure
         }
     }
 
-    taskRunner.stop('Project initialized!');
+    currentTaskName = '';
+    clearInterval(taskInterval);
+
+    // Final Task Summary Output
+    let finalSummary = `     ${pc.green('✔')} ${pc.bold(pc.green('Project initialized!'))}\n`;
+    for (const doneMsg of completedTasks) {
+        finalSummary += `       ${pc.dim('■')} ${pc.dim(doneMsg)}\n`;
+    }
+    logUpdate(finalSummary);
+    logUpdate.done();
 
     // --- Completion Summary & Next Steps ---
     console.log('');
-    p.outro(`${renderBadge('next', pc.bgCyan, pc.black)} ${pc.bold('Project setup complete. Explore your project!')}`);
+    p.outro(`${renderBadge('next', pc.bgCyan, pc.black)}  ${pc.bold('Project created. Explore your project!')}`);
 
-    console.log(`  ${pc.dim('Enter your project directory using:')}`);
-    console.log(`  ${pc.cyan(`cd ${targetDir}`)}\n`);
-    console.log(`  ${pc.dim('Run the development server:')}`);
-    console.log(`  ${pc.cyan('npm run dev')}\n`);
+    const targetFormatted = targetDir.includes(' ') ? `"./${targetDir}"` : `./${targetDir}`;
+    console.log(`        Enter your project directory using ${pc.cyan(`cd ${targetFormatted}`)}`);
+    console.log(`        Run ${pc.cyan('npm run dev')} to start the dev server. ${pc.cyan('q')} + ${pc.cyan('ENTER')} to stop.`);
+    console.log(`        Add frameworks like ${pc.cyan('react')} or ${pc.cyan('tailwind')} using ${pc.cyan('pphlx add')}.`);
+    console.log(`\n        Stuck? Join us at ${pc.cyan('https://pphlx.org/chat')}\n`);
 }
 
 main().catch((err) => {

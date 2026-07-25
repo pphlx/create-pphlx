@@ -2,6 +2,17 @@
 
 All notable changes to the `create-pphlx` scaffolding CLI package will be documented in this file.
 
+## [1.0.4] - 2026-07-25
+
+### ✨ Dynamic Progress Animations & UI Polish
+- **Real-Time Task Runner**: Added real-time single-line task progress animation for template extraction, dependency installation, and git repository initialization.
+- **Enhanced Badge & Step Formatting**:
+  - Uniform 7-character step badges (`dir`, `tmpl`, `deps`, `git`).
+  - Improved step checkmarks (`✔`), sub-task indicators (`■`), and status banners (`pphlx`, `next`).
+- **Clear Guidance & Next Steps**: Updated scaffolding completion summary with direct project navigation and development server startup instructions.
+
+---
+
 ## [1.0.3] - 2026-07-25
 
 ### ✨ Interactive CLI Prompts & Scaffolding Flow
