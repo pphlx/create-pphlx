@@ -2,6 +2,13 @@
 
 All notable changes to the `create-pphlx` scaffolding CLI package will be documented in this file.
 
+## [1.0.6] - 2026-07-25
+
+### Fixed
+- **Dynamic Remote Template Manifest URL**: Fixed `TEMPLATE_MANIFEST_URL` endpoint to point to `templates/template.json` for live dynamic template fetching from the main GitHub repository.
+
+---
+
 ## [1.0.5] - 2026-07-25
 
 ### ✨ Gradient Progress Bar & UI Wording Refinements

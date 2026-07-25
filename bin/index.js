@@ -9,7 +9,7 @@ import * as p from '@clack/prompts';
 import { downloadTemplate } from 'giget';
 import logUpdate from 'log-update';
 
-const TEMPLATE_MANIFEST_URL = 'https://raw.githubusercontent.com/pphlx/pphlx/main/templates/templates.json';
+const TEMPLATE_MANIFEST_URL = 'https://raw.githubusercontent.com/pphlx/pphlx/main/templates/template.json';
 
 const DEFAULT_TEMPLATES = [
     { value: 'minimal', label: 'Minimal starter project', hint: '(recommended)' }
@@ -46,7 +46,11 @@ async function fetchRemoteTemplates() {
         if (res.ok) {
             const data = await res.json();
             if (Array.isArray(data) && data.length > 0) {
-                return data;
+                return data.map(t => ({
+                    value: t.name || t.value,
+                    label: t.title || t.label || t.name,
+                    hint: t.name === 'minimal' ? '(recommended)' : (t.description || t.hint || '')
+                }));
             }
         }
     } catch {
