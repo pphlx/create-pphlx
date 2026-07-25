@@ -2,6 +2,15 @@
 
 All notable changes to the `create-pphlx` scaffolding CLI package will be documented in this file.
 
+## [1.0.5] - 2026-07-25
+
+### ✨ Gradient Progress Bar & UI Wording Refinements
+- **Multi-Color Gradient Progress Bar**: Enhanced real-time task spinner with a smooth multi-color ANSI gradient bar sequence (magenta, blue, cyan).
+- **Consistent Brand Styling**: Unified `pphlx` magenta badge and `next` cyan badge styling across initial intro and outro banners.
+- **Improved Wording**: Refined project initialization headers and next-steps exploration messages.
+
+---
+
 ## [1.0.4] - 2026-07-25
 
 ### ✨ Dynamic Progress Animations & UI Polish

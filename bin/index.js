@@ -82,17 +82,17 @@ async function runCommand(command, args, cwd) {
 }
 
 const BAR_FRAMES = [
-    pc.bgMagenta('     '),
-    pc.bgMagenta('█    '),
-    pc.bgMagenta('██   '),
-    pc.bgMagenta('███  '),
-    pc.bgMagenta('████ '),
+    pc.bgMagenta(' ') + pc.bgBlue(' ') + pc.bgCyan('   '),
+    pc.bgMagenta('█') + pc.bgBlue(' ') + pc.bgCyan('   '),
+    pc.bgMagenta('██') + pc.bgBlue(' ') + pc.bgCyan('  '),
+    pc.bgMagenta('███') + pc.bgBlue(' ') + pc.bgCyan(' '),
+    pc.bgMagenta('████') + pc.bgBlue(' '),
     pc.bgMagenta('█████')
 ];
 
 async function main() {
     console.log('');
-    p.intro(`${renderBadge('pphlx', pc.bgMagenta, pc.black)}  ${pc.bold('Launch sequence initiated.')}`);
+    p.intro(`${renderBadge('pphlx', pc.bgMagenta, pc.black)}  ${pc.bold('PPHLX Project initializing...')}`);
 
     const args = arg({
         '--template': String,
