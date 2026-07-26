@@ -12,7 +12,7 @@ import logUpdate from 'log-update';
 const TEMPLATE_MANIFEST_URL = 'https://raw.githubusercontent.com/pphlx/pphlx/main/templates/template.json';
 
 const DEFAULT_TEMPLATES = [
-    { value: 'minimal', label: 'Minimal starter project', hint: '(recommended)' }
+    { value: 'minimal', label: 'Minimal starter project', hint: 'recommended' }
 ];
 
 const ADJECTIVES = [
@@ -49,7 +49,7 @@ async function fetchRemoteTemplates() {
                 return data.map(t => ({
                     value: t.name || t.value,
                     label: t.title || t.label || t.name,
-                    hint: t.name === 'minimal' ? '(recommended)' : (t.description || t.hint || '')
+                    hint: t.name === 'minimal' ? 'recommended' : (t.description || t.hint || '')
                 }));
             }
         }

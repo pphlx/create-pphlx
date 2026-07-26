@@ -2,6 +2,13 @@
 
 All notable changes to the `create-pphlx` scaffolding CLI package will be documented in this file.
 
+## [1.0.7] - 2026-07-26
+
+### Fixed
+- **Template Prompt Formatting**: Fixed double parentheses around hint labels (e.g. `((recommended))` -> `(recommended)`) in interactive template selection prompts.
+
+---
+
 ## [1.0.6] - 2026-07-25
 
 ### Fixed
