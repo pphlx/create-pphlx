@@ -298,7 +298,7 @@ async function main() {
     console.log(`        Enter your project directory using ${pc.cyan(`cd ${targetFormatted}`)}`);
     console.log(`        Run ${pc.cyan('npm run dev')} to start the dev server. ${pc.cyan('q')} + ${pc.cyan('ENTER')} to stop.`);
     console.log(`        Add frameworks like ${pc.cyan('react')} or ${pc.cyan('tailwind')} using ${pc.cyan('pphlx add')}.`);
-    console.log(`\n        Stuck? Join us at ${pc.cyan('https://pphlx.org/chat')}\n`);
+    console.log(`\n        Stuck? Join us at ${pc.cyan('https://pphlx.org/chat/')}\n`);
 }
 
 main().catch((err) => {

@@ -2,6 +2,13 @@
 
 All notable changes to the `create-pphlx` scaffolding CLI package will be documented in this file.
 
+## [1.0.8] - 2026-07-26
+
+### Fixed
+- **Outro Summary Discord URL**: Updated scaffolding outro Discord community link to `https://pphlx.org/chat/` (with trailing slash) for instant redirection.
+
+---
+
 ## [1.0.7] - 2026-07-26
 
 ### Fixed
