@@ -131,7 +131,7 @@ async function main() {
                 }
             });
             if (p.isCancel(dirInput)) {
-                p.cancel('Launch sequence aborted.');
+                p.cancel('Project initialization aborted.');
                 process.exit(0);
             }
             targetDir = dirInput.trim();

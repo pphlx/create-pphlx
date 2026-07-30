@@ -2,6 +2,13 @@
 
 All notable changes to the `create-pphlx` scaffolding CLI package will be documented in this file.
 
+## [1.0.9] - 2026-07-30
+
+### Fixed
+- **Cancellation Message**: Updated prompt cancellation message to `Project initialization aborted.` for standard CLI user interaction.
+
+---
+
 ## [1.0.8] - 2026-07-26
 
 ### Fixed
